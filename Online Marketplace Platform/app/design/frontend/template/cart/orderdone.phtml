@@ -1,0 +1,17 @@
+<section class= "place-order">
+
+    <div id="success-message" class="hidden">
+        <p>Your order has been successfully placed!</p>
+    </div>
+    <a href="<?php echo Mage::getBaseUrl('page/index/index')?>">Go to Home Page</a>
+</section>
+
+
+<script>
+    // JavaScript to add animation class and show the success message
+    document.addEventListener('DOMContentLoaded', function () {
+        var successMessage = document.getElementById('success-message');
+        successMessage.classList.remove('hidden');
+        successMessage.classList.add('show', 'animation');
+    });
+</script>

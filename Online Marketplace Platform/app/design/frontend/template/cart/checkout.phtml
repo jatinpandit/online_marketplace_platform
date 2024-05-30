@@ -1,0 +1,226 @@
+<?php $addressData = $this->getAddressData()->getData(); ?>
+<?php $addressId = $this->getaddressId()->getData(); ?>
+
+<section class="checkout-section">
+    <div class="address-show">
+        <?php if (!empty($addressData)): ?>
+            <?php foreach ($addressData as $addValue): ?>
+                <div id="asdasdasdasd" class="address-cards"
+                data-json='{"customer":"<?php echo $addValue->getCustomerId(); ?>",
+                            "billing_address":"<?php echo $addValue->getBillingAddress(); ?>",
+                            "billing_city":"<?php echo $addValue->getBillingCity(); ?>",
+                            "billing_region":"<?php echo $addValue->getBillingRegion(); ?>",
+                            "billing_country":"<?php echo $addValue->getBillingCountry(); ?>",
+                            "billing_phone":"<?php echo $addValue->getBillingPhone(); ?>",
+                            "billing_zip":"<?php echo $addValue->getBillingZip(); ?>",
+                            "shipping_address":"<?php echo $addValue->getShippingAddress(); ?>",
+                            "shipping_city":"<?php echo $addValue->getShippingCity(); ?>",
+                            "shipping_region":"<?php echo $addValue->getShippingRegion(); ?>",
+                            "shipping_country":"<?php echo $addValue->getShippingCountry(); ?>",
+                            "shipping_phone":"<?php echo $addValue->getShippingPhone(); ?>",
+                            "shipping_zip":"<?php echo $addValue->getShippingZip(); ?>"}'>
+                    <p>Address :
+                        <?php echo $addValue->getBillingAddress() ?>
+                    </p>
+                    <p>City :
+                        <?php echo $addValue->getBillingCity() ?>
+                    </p>
+                    <p>Country :
+                        <?php echo $addValue->getBillingCountry() ?>
+                    </p>
+                    <p>ZipCode :
+                        <?php echo $addValue->getBillingZip() ?>
+                    </p>
+                    <p>Phone No:
+                        <?php echo $addValue->getBillingPhone() ?>
+                    </p>
+                </div>
+
+            <?php endforeach; ?>
+
+            <?php else : ?>
+                <div id="asdasdasdasd" class="address-cards">
+                    <h4>Lost in the Maze of Addresses? Fear not! Discover a Fresh Spot in the Side Form!</h4>
+                </div>
+
+        <?php endif; ?>
+    </div>
+    <script type="text/javascript">
+        $('.address-cards').each((i, e) => {
+            console.log($(e).attr('data-json'))
+            $(e).click(() => {
+                var _data = JSON.parse($(e).attr('data-json'))
+                for (var key in _data) {
+                    if (_data.hasOwnProperty(key)) {
+                        $('#' + key).val(_data[key]);
+                    }
+                }
+                // $('#billing_address').val(_data.billing_address);
+                // $('#billing_city').val(_data.billing_city);
+                // $('#billing_country').val(_data.billing_country);
+            });
+        })
+    </script>
+
+    <div class="form-show">
+        <form action="<?php echo Mage::getBaseUrl('sales/quote/save') ?>" method="post" class="sales-quote-form">
+            <h2>Customer Information</h2>
+            <div class="form-group">
+                <input type="hidden" name="sales_quote_customer[quote_customer_id]"
+                    value="<?php echo isset($addressId[0]) ? $addressId[0]->getQuoteCustomerId() : ''; ?>">
+                <!-- Billing Information -->
+                <div class="field-group">
+                    <label for="billing_address" class="label-billing-address">Billing Address:</label>
+                    <input type="text" id="billing_address" name="sales_quote_customer[billing_address]" required
+                        class="input-billing-address">
+                </div>
+
+                <div class="field-group">
+                    <label for="billing_city" class="label-billing-city">Billing City:</label>
+                    <input type="text" id="billing_city" name="sales_quote_customer[billing_city]" required
+                        class="input-billing-city">
+                </div>
+
+                <div class="field-group">
+                    <label for="billing_region" class="label-billing-region">Billing Region:</label>
+                    <input type="text" id="billing_region" name="sales_quote_customer[billing_region]"
+                        class="input-billing-region">
+                </div>
+
+                <div class="field-group">
+                    <label for="billing_country" class="label-billing-country">Billing Country:</label>
+                    <input type="text" id="billing_country" name="sales_quote_customer[billing_country]" required
+                        class="input-billing-country">
+                </div>
+
+                <div class="field-group">
+                    <label for="billing_phone" class="label-billing-phone">Billing Phone:</label>
+                    <input type="tel" id="billing_phone" name="sales_quote_customer[billing_phone]" required
+                        class="input-billing-phone">
+                </div>
+
+                <div class="field-group">
+                    <label for="billing_zip" class="label-billing-zip">Billing ZIP:</label>
+                    <input type="text" id="billing_zip" name="sales_quote_customer[billing_zip]"
+                        class="input-billing-zip">
+                </div>
+            </div>
+
+            <h2>Shipping Details</h2>
+            <div class="form-group">
+
+                <!-- Shipping Information -->
+                <input type="checkbox" id="same_as_billing" onchange="copyBillingToShipping()"
+                    class="checkbox-same-as-billing">
+                <label for="same_as_billing" class="label-same-as-billing">Same as Billing</label>
+
+                <div class="field-group">
+                    <label for="shipping_address" class="label-shipping-address">Shipping Address:</label>
+                    <input type="text" id="shipping_address" name="sales_quote_customer[shipping_address]" required
+                        class="input-shipping-address">
+                </div>
+
+                <div class="field-group">
+                    <label for="shipping_city" class="label-shipping-city">Shipping City:</label>
+                    <input type="text" id="shipping_city" name="sales_quote_customer[shipping_city]" required
+                        class="input-shipping-city">
+                </div>
+
+                <div class="field-group">
+                    <label for="shipping_region" class="label-shipping-region">Shipping Region:</label>
+                    <input type="text" id="shipping_region" name="sales_quote_customer[shipping_region]"
+                        class="input-shipping-region">
+                </div>
+
+                <div class="field-group">
+                    <label for="shipping_country" class="label-shipping-country">Shipping Country:</label>
+                    <input type="text" id="shipping_country" name="sales_quote_customer[shipping_country]" required
+                        class="input-shipping-country">
+                </div>
+
+                <div class="field-group">
+                    <label for="shipping_phone" class="label-shipping-phone">Shipping Phone:</label>
+                    <input type="tel" id="shipping_phone" name="sales_quote_customer[shipping_phone]" required
+                        class="input-shipping-phone">
+                </div>
+
+                <div class="field-group">
+                    <label for="shipping_zip" class="label-shipping-zip">Shipping ZIP:</label>
+                    <input type="text" id="shipping_zip" name="sales_quote_customer[shipping_zip]"
+                        class="input-shipping-zip">
+                </div>
+            </div>
+
+            <h2>Payment Options</h2>
+
+            <div class="form-group">
+                <div class="field-group">
+                    <label for="payment_options" class="label-payment-options">Payment Options:</label>
+                    <select id="payment_options" name="sales_quote_payment[payment_method]" required
+                        class="select-payment-options">
+                        <option value="">----select----</option>
+                        <?php foreach ($this->getPaymentMethods() as $_payment) :?>
+                            <option value="<?php echo $_payment->getPaymentId() ?>"><?php echo $_payment->getPaymentMethod()?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div id="card_number_field" class="form-group hidden">
+                        <label for="card_number" class="label-card-number">Card Number:</label>
+                        <input type="text" id="card_number" name="sales_quote_payment[card_number]" class="input-card-number">
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="field-group">
+                    <label for="shipping_method" class="label-shipping-method">Shipping Method:</label>
+                    <select id="shipping_method" name="sales_quote_shipping[shipping_method]" required
+                        class="select-shipping-method">
+                        <option value="">----select----</option>
+                        <?php foreach ($this->getShippingMethods() as $_shipping) :?>
+                            <option value="<?php echo $_shipping->getShippingId() ?>"><?php echo $_shipping->getShippingMethod()?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <input type="submit" value="Place Order" style="width:100%; padding:10px" class="submit-button">
+        </form>
+    </div>
+
+</section>
+
+
+
+<script>
+    function copyBillingToShipping() {
+        if (document.getElementById('same_as_billing').checked) {
+            document.getElementById('shipping_address').value = document.getElementById('billing_address').value;
+            document.getElementById('shipping_city').value = document.getElementById('billing_city').value;
+            document.getElementById('shipping_region').value = document.getElementById('billing_region').value;
+            document.getElementById('shipping_country').value = document.getElementById('billing_country').value;
+            document.getElementById('shipping_phone').value = document.getElementById('billing_phone').value;
+            document.getElementById('shipping_zip').value = document.getElementById('billing_zip').value;
+        } else {
+            document.getElementById('shipping_address').value = '';
+            document.getElementById('shipping_city').value = '';
+            document.getElementById('shipping_region').value = '';
+            document.getElementById('shipping_country').value = '';
+            document.getElementById('shipping_phone').value = '';
+            document.getElementById('shipping_zip').value = '';
+        }
+    }
+</script>
+
+<script>
+    document.getElementById('payment_options').addEventListener('change', function() {
+        var cardNumberField = document.getElementById('card_number_field');
+        var selectedOption = this.value;
+
+        if (selectedOption === '3' || selectedOption === '4') {
+            cardNumberField.classList.remove('hidden');
+        } else {
+            cardNumberField.classList.add('hidden');
+        }
+    });
+</script>

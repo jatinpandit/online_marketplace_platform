@@ -1,0 +1,15 @@
+<?php $shippingData = $this->getShippingData(); ?>
+<form action="<?php echo Mage::getBaseUrl('admin/sales_shipping/save')?>" method="POST" class="form">
+<input type="hidden" name="shipping_method[shipping_id]" value="<?php echo isset($shippingData) ? $shippingData->getShippingId() : ''; ?>">
+
+  <div class="form-row">
+        <div class="form-col">
+            <label for="sku">Shipping type</label>
+            <input type="text" id="sku" name="shipping_method[shipping_method]" value="<?php echo isset($shippingData) ? $shippingData->getShippingMethod() : ''; ?>" >
+        </div>
+    </div>
+
+    <button type="submit" >
+        <?php echo ($shippingData->getId() !== "") ? 'Update' : 'Submit'; ?>
+    </button>
+</form>

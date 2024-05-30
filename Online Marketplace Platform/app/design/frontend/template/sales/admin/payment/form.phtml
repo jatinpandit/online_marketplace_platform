@@ -1,0 +1,15 @@
+<?php $paymentData = $this->getPaymentData(); ?>
+<form action="<?php echo Mage::getBaseUrl('admin/sales_payment/save')?>" method="POST" class="form">
+<input type="hidden" name="payment_method[payment_id]" value="<?php echo isset($paymentData) ? $paymentData->getPaymentId() : ''; ?>">
+
+  <div class="form-row">
+        <div class="form-col">
+            <label for="sku">Payment type</label>
+            <input type="text" id="sku" name="payment_method[payment_method]" value="<?php echo isset($paymentData) ? $paymentData->getPaymentMethod() : ''; ?>" >
+        </div>
+    </div>
+
+    <button type="submit" >
+        <?php echo ($paymentData->getId() !== "") ? 'Update' : 'Submit'; ?>
+    </button>
+</form>

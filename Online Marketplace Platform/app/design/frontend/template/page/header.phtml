@@ -1,0 +1,81 @@
+<?php $this->logInOutText();
+$categoryData = $this->getCategoryData();
+$cartCount = sizeof($this->getItemData()->getData());
+?>
+<?php echo Mage::getSingleton('core/session')->get('quote_id') ?>
+<header class="header">
+    <!-- <a href="https://jinil09.github.io/MyPortfolio/" class="logo"><img
+            src="<?php echo Mage::getBaseUrl('skin/img/logo.png') ?>" alt="Hello"></a> -->
+    <a href="<?php echo Mage::getBaseUrl('page/index/index') ?>"  class="logo">Adit-E</a>
+
+
+    <div class="search-bar-container">
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Search..." style="margin:0;" onkeyup="showHint(this.value)" >
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        <p><span id="txtHint"></span></p>
+    </div>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="<?php echo Mage::getBaseUrl('page/index/index') ?>">Home</a></li>
+            <li><a href="<?php echo Mage::getBaseUrl('wishlist/index/view') ?>">WishList</a></li>
+            <li><a href="<?php echo Mage::getBaseUrl('admin/user') ?>">Admin Panel</a></li>
+        </ul>
+    </nav>
+
+    <div class="icon-container">
+        <div class="user-icon-container">
+            <div class="user-dropdown">
+                <i class="fas fa-user user-icon"></i>
+                <span class="user-name"><a href="<?php echo $this->link; ?>" style="color:white;">
+                        <?php echo $this->logInOutText(); ?>
+                    </a></span>
+                <?php if ($this->logInOutText() !== "Log-in"): ?>
+                    <div class="dropdown-content">
+                        <a href="<?php echo Mage::getBaseUrl('customer/account/dashboard') ?>">Profile</a>
+                        <a href="<?php echo Mage::getBaseUrl('order/index/index') ?>">Orders</a>
+                        <a href="<?php echo Mage::getBaseUrl('customer/account/logout') ?>">Logout</a>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="cart-container-icon">
+            <a href="<?php echo Mage::getBaseUrl('cart/checkout/view') ?>">
+                <i class="fas fa-shopping-cart cart-icon"></i>
+                <span class="cart-count">
+                    <?php echo $cartCount; ?>
+                </span>
+            </a>
+        </div>
+    </div>
+
+</header>
+<nav class="small-navbar">
+    <ul class="category-list">
+        <?php foreach ($categoryData->getData() as $category): ?>
+            <li class="category-item"><a
+                    href="<?php echo Mage::getBaseUrl('catalog/category/view?id=' . $category->getCategoryId()) ?>">
+                    <?php echo $category->getCategoryName() ?>
+                </a></li>
+        <?php endforeach; ?>
+    </ul>
+</nav>
+
+<script>
+    document.getElementsByClassName('small-navbar')[0].style.top = document.getElementsByClassName('header')[0].clientHeight + "px";
+
+    function showHint(str){
+        var xhttp = new XMLHttpRequest()
+
+        xhttp.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        }
+        xhttp.open('GET', 'http://localhost/mvc_project/page/index/search?q='+str)
+        xhttp.send();
+    }
+
+</script>

@@ -1,0 +1,103 @@
+<?php $itemData = $this->getItemData()->getData();
+$quoteId = Mage::getSingleton('core/session')->get('quote_id');
+$totalQty = 0;
+?>
+
+<main class="cart">
+
+
+    <div class="Cart-Container">
+
+        <?php if (empty ($itemData)): ?>
+            <p>Your Cart is feeling empty. Please add some goods.</p>
+        <?php else: ?>
+
+            <div class="Header">
+                <h3 class="Heading">Shopping Cart</h3>
+                <h5 class="Action">Remove all</h5>
+            </div>
+
+            <?php foreach ($itemData as $item): ?>
+                <?php
+                $product = $item->getProduct();
+                ?>
+                <div class="Cart-Items">
+                    <div class="image-box">
+                        <img src="<?php echo Mage::getBaseUrl('media/product/') . $product->getImageLink() ?>"
+                            style="height:80px" />
+                    </div>
+                    <div class="about">
+                        <h1 class="title">
+                            <?php echo $product->getName() ?>
+                        </h1>
+                    </div>
+                    <div class="counter">
+                        <form action="<?php echo Mage::getBaseUrl('sales/quote/update') ?>" method="post">
+                            <input type="hidden" name="item_id" value="<?php echo $item->getItemId(); ?>">
+                            <input type="number" name="new_qty" value="<?php echo $item->getQty() ?>" min="1" class="count"
+                                required>
+                            <input type="submit" value="Update">
+                        </form>
+                    </div>
+
+                    <div class="prices">
+                        <div class="amount">
+                            <?php echo $product->getPrice(); ?>
+                        </div>
+                        <div class="save"><a>Cost (
+                                <?php echo $item->getQty() * $product->getPrice(); ?>)
+                            </a></div>
+                        <div class="remove"><a
+                                href="<?php echo Mage::getBaseUrl('sales/quote/delete?id=' . $item->getItemId()) ?>">Remove</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+
+            <hr>
+            <div class="checkout">
+                <div class="total">
+                    <div>
+                        <div class="Subtotal">Sub-Total</div>
+                        <div class="items">
+                            <?php echo sizeof($this->getItemData()->getData()) ?> - item
+                        </div>
+                    </div>
+                    <div class="total-amount">
+                        <?php
+
+                        echo $this->getQuoteData($quoteId)->getGrandTotal(); ?>
+                    </div>
+                </div>
+                <button class="button"><a
+                        href="<?php echo Mage::getBaseUrl('cart/checkout/checkout') ?>">Checkout</a></button>
+            </div>
+        <?php endif; ?>
+    </div>
+</main>
+
+
+<script type="text/javascript">
+
+    function showErrorPopup(message) {
+
+        var popup = document.createElement('div');
+        popup.classList.add('popup');
+        var messageElement = document.createElement('p');
+        messageElement.textContent = message;
+        popup.appendChild(messageElement);
+        document.body.appendChild(popup);
+        setTimeout(function () {
+            popup.remove();
+        }, 5000); 
+    }
+    <?php
+     $error = Mage::getSingleton('core/session')->get('error_message');
+    
+     if ($error !== null && $error !== '') {
+         echo "showErrorPopup('" . addslashes($error) . "');";
+         Mage::getSingleton('core/session')->remove('error_message');
+     }
+    ?>
+</script>

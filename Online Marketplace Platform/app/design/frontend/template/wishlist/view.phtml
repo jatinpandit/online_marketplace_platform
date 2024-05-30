@@ -1,0 +1,47 @@
+<div class="wishlist-container">
+    <h1>My Wish List</h1>
+
+    <div class="wishlist-options">
+        <button onclick="clearList()">Clear Wish List</button>
+        <button><a href="<?php echo Mage::getBaseUrl('wishlist/index/formWishlist') ?>">Create New Wish
+                List</a></button>
+    </div>
+
+    <div class="wishlist-list">
+        <ul>
+            <?php foreach ($this->getWishlist() as $wishlist): ?>
+                <li><a href="<?php echo Mage::getBaseUrl('wishlist/index/view?id=' . $wishlist->getId()) ?>">
+                        <?php echo $wishlist->getName() ?>
+                    </a></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+
+    <div class="wishlist-item-container">
+
+        <?php if ($this->getRequest()->getParams('id') !== ''): ?>
+            <?php foreach ($this->getWishlistItem($this->getRequest()->getParams('id')) as $_item): ?>
+                <?php
+                    $product = $this->getProduct($_item->getProductId());
+                ?>
+                <a href="<?php echo $product->getLink()?>">
+                    <div class="wishlist-item">
+                        <img src="<?php echo Mage::getBaseUrl('media/product/'.$product->getImageLink()) ?>" alt="">
+                        <div class="wishlist-item-details">
+                            <h3>
+                                <?php echo $product->getName() ?>
+                            </h3>
+                            <p>
+                                <?php echo $product->getPrice() ?>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No Wishlist selected here</p>
+        <?php endif; ?>
+
+    </div>
+
+</div>

@@ -1,0 +1,146 @@
+
+.checkout-section {
+    display: flex;
+}
+
+/* Style for the left side containing the address data */
+.address-show {
+    width: 20%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Style for the right side containing the form and data */
+.form-show {
+    width: 80%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Style for the address cards */
+.address-cards {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Style for the form */
+.sales-quote-form, .payment-options-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+
+
+.sales-quote-form,
+.payment-options-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.field-group {
+    flex: 0 0 48%;
+    margin-bottom: 15px;
+}
+
+.label-same-as-billing {
+    flex: 0 0 100%;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="checkbox"],
+select {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.checkbox-same-as-billing {
+    margin-top: 20px;
+}
+
+.submit-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+/* Add focus styles for better accessibility */
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* ---------------------------- */
+
+.address-cards {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+}
+
+/* Address Cards */
+/* .address-cards {
+    width: 300px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+} */
+
+/* Hover Effect */
+.address-cards:hover {
+    box-shadow: 0px 0px 10px 0px rgba(192, 173, 6, 0.968);
+    transform: translateY(-5px);
+}
+
+/* Focus Effect */
+.address-cards:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* Address Details */
+.address-cards p {
+    margin: 5px 0;
+}
+
+
+/* ----------------------------- */
+.hidden {
+    display: none;
+}

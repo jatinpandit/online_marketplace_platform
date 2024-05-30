@@ -1,0 +1,21 @@
+<?php $this->logInOutText();?>
+
+<header class="navbar">
+    <div class="logo">
+        <!-- <img src="logo.png" alt="Logo"> -->
+        <span>Admin Panel</span>
+    </div>
+    <nav class="nav-links">
+        <a href="<?php echo Mage::getBaseUrl('admin/user/index') ?>"><i class="fa-solid fa-house"></i>&nbsp; Home</a>
+        <a href="<?php echo Mage::getBaseUrl('admin/catalog_product/list') ?>"><i class="fas fa-box"></i>&nbsp; Product</a>
+        <a href="<?php echo Mage::getBaseUrl('admin/catalog_category/list') ?>"><i class='fas fa-shopping-basket'></i>&nbsp; Category</a>
+        <a href="<?php echo Mage::getBaseUrl('admin/import/list') ?>"><i class="fa-solid fa-file-import"></i>&nbsp; Import</a>
+        <a href="<?php echo Mage::getBaseUrl('admin/order/list') ?>"><i class="fas fa-clipboard-list"></i>&nbsp; Orders</a>
+        <a href="<?php echo Mage::getBaseUrl('admin/sales_status/list') ?>"><i class="fas fa-clipboard-check"></i>&nbsp; Orders Status</a>
+        <a href="<?php echo Mage::getBaseUrl('admin/sales_payment/list') ?>"><i class='fas fa-money-check-alt'></i>&nbsp; Payment</a>
+        <a href="<?php echo Mage::getBaseUrl('admin/sales_shipping/list') ?>"><i class="fa-solid fa-truck-fast"></i>&nbsp; Shipping</a>
+        <a href="<?php echo Mage::getBaseUrl('admin/banner/list') ?>"><i class="fa fa-image"></i> &nbsp; Banner</a>
+        <!-- <a href="#"><i class="fa-solid fa-gear"></i>&nbsp; Settings</a> -->
+        <a href="<?php echo $this->link;?>"><i class="fas fa-sign-out-alt"></i>&nbsp;<?php  echo $this->logInOutText(); ?></a>
+    </nav>
+</header>

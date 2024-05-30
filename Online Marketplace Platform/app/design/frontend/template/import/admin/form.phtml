@@ -1,0 +1,16 @@
+<form action="<?php echo Mage::getBaseUrl('admin/import/save')?>" method="POST" class="form" enctype="multipart/form-data">
+  <div class="form-row">
+        <div class="form-col">
+            <label for="csv">CSV:</label>
+            <input type="file" id="csv" name="csv_file">
+        </div>
+        <div class="form-col">
+            <label for="table_name">Table Name:</label>
+            <input type="text" id="table_name" name="table_name">
+        </div>
+    </div>
+
+    <button type="submit" >
+       submit
+    </button>
+</form>

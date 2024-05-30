@@ -1,0 +1,25 @@
+<?php   $listModel = $this->getShippingData();?>
+
+<section class="list">
+<h2>Shipping Method List</h2>
+    <table border="1">
+        <tr>
+            <th>Shipping Id</th>
+            <th>Shipping Methods</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <?php foreach ($listModel->getData() as $shipping): ?>
+            <tr>
+                <td style="width:30px"><?= $shipping->getShippingId() ?></td>
+                <td><?= $shipping->getShippingMethod() ?></td>
+                <td><a href="<?php echo Mage::getBaseUrl('admin/sales_Shipping/form?id='. $shipping->getShippingId()) ?>"  >Edit</a></td>
+                <td><a href="<?php echo Mage::getBaseUrl('admin/sales_Shipping/delete?id='. $shipping->getShippingId()) ?>"  >Delete</a></td>
+            </tr>
+        <?php endforeach; ?>
+  </table>
+</section>
+
+
+
+

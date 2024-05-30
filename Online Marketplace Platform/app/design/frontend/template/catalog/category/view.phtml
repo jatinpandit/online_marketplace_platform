@@ -1,0 +1,75 @@
+<?php $productData = $this->getProductData() ?>
+
+
+
+<div class="product-page-container">
+    <div class="product-filter">
+        <!-- Add your filter options here -->
+        <h3>Filter Options</h3>
+        <hr style="margin-bottom:1.5rem">
+        <!-- Example filter option -->
+        <label>
+            <input type="checkbox"> Category 1
+        </label>
+        <label>
+            <input type="checkbox"> Category 2
+        </label>
+
+        <div class="filter-option">
+            <h4>Category</h4>
+            <label><input type="checkbox"> Category 1</label>
+            <label><input type="checkbox"> Category 2</label>
+            <!-- Add more categories as needed -->
+        </div>
+
+        <!-- Price range filter -->
+        <div class="filter-option">
+            <h4>Price Range</h4>
+            <label><input type="checkbox"> $0 - $25</label>
+            <label><input type="checkbox"> $25 - $50</label>
+            <!-- Add more price ranges as needed -->
+        </div>
+
+        <!-- Brand filter -->
+        <div class="filter-option">
+            <h4>Brand</h4>
+            <label><input type="checkbox"> Brand 1</label>
+            <label><input type="checkbox"> Brand 2</label>
+            <!-- Add more brands as needed -->
+        </div>
+
+        <!-- Ratings filter -->
+        <div class="filter-option">
+            <h4>Ratings</h4>
+            <label><input type="checkbox"> 4 stars & above</label>
+            <label><input type="checkbox"> 3 stars & above</label>
+            <!-- Add more rating options as needed -->
+        </div>
+
+        <!-- Add more filter options as needed -->
+        <!-- Add more filter options as needed -->
+    </div>
+    <div class="product-card-container">
+        <?php foreach ($productData->getData() as $product): ?>
+            <a href="<?php echo Mage::getBaseUrl('catalog/product/view?id=' . $product->getProductId()) ?>">
+                <div class="product-card <?php echo ($product->getInventory() == 0) ? 'out-of-stock' : '' ?>">
+                    <img src="<?php echo Mage::getBaseUrl('media/product/' . $product->getImageLink()) ?>"
+                        alt="Product Image 1" class="product-image">
+                    <div class="product-details">
+                        <h3 class="product-name">
+                            <?php echo $product->getName() ?>
+                        </h3>
+                        <p class="product-price">
+                            <?php echo $product->getPrice() ?>
+                        </p>
+                        <?php if ($product->getInventory() == 0): ?>
+                            <p class="out-of-stock-msg">Out of stock</p>
+                        <?php else: ?>
+                            <a href="#" class="add-to-cart-btn">Add to Cart</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach; ?>
+    </div>
+</div>

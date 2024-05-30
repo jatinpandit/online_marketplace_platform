@@ -1,0 +1,135 @@
+<div class="create-account-container">
+    <h2>Create an Account</h2>
+
+    <form action="<?php echo Mage::getBaseUrl('customer/account/save') ?>" method="post" class="create-account-form"
+        id="createAccountForm">
+
+        <!-- Customer fields -->
+        <input type="hidden" name="customer[customer_id]"
+            value="<?php echo isset ($customerData) ? $customerData->getCustomerId() : ''; ?>">
+
+        <div class="create-account-form-row">
+            <div class="create-account-form-col">
+                <label for="first_name" class="create-account-label">First Name:</label>
+                <input type="text" id="first_name" name="customer[first_name]" class="create-account-input"
+                    placeholder="Enter First Name" >
+                <span class="create-account-instruction" id="first_name_instruction"></span>
+            </div>
+            <div class="create-account-form-col">
+                <label for="last_name" class="create-account-label">Last Name:</label>
+                <input type="text" id="last_name" name="customer[last_name]" class="create-account-input"
+                    placeholder="Enter Last Name" >
+                <span class="create-account-instruction" id="last_name_instruction"></span>
+            </div>
+        </div>
+
+        <div class="create-account-form-row">
+            <div class="create-account-form-col">
+                <label for="customer_email" class="create-account-label">Email:</label>
+                <input type="email" id="customer_email" name="customer[customer_email]" class="create-account-input"
+                    placeholder="Enter Email" >
+                <span class="create-account-instruction" id="customer_email_instruction"></span>
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="create-account-form-row">
+            <div class="create-account-form-col">
+                <label for="password" class="create-account-label">Password:</label>
+                <input type="password" id="password" name="customer[password]" class="create-account-input"
+                    placeholder="Enter Password" >
+                <span class="create-account-instruction" id="password_instruction"></span>
+            </div>
+            <div class="create-account-form-col">
+                <label for="confirm_password" class="create-account-label">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="create-account-input"
+                    placeholder="Confirm Password" >
+                <span class="create-account-instruction" id="confirm_password_instruction"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="create-account-button">Create Account</button>
+    </form>
+
+    <p>Already have an account? <a href="<?php echo Mage::getBaseUrl('customer/account/login') ?>">Login here</a>.</p>
+</div>
+
+
+<script>
+
+    document.getElementById("createAccountForm").addEventListener("submit", function (event) {
+        var firstName = document.getElementById("first_name").value.trim();
+        var lastName = document.getElementById("last_name").value.trim();
+        var email = document.getElementById("customer_email").value.trim();
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirm_password").value;
+
+        var isValid = true;
+
+        // First Name validation
+        if (firstName === "") {
+            document.getElementById("first_name_instruction").innerText = "* Please enter your first name";
+            isValid = false;
+        } else {
+            document.getElementById("first_name_instruction").innerText = "";
+        }
+
+        // Last Name validation
+        if (lastName === "") {
+            document.getElementById("last_name_instruction").innerText = "* Please enter your last name";
+            isValid = false;
+        } else {
+            document.getElementById("last_name_instruction").innerText = "";
+        }
+
+        // Email validation
+        if (email === "") {
+            document.getElementById("customer_email_instruction").innerText = "* Please enter your email";
+            isValid = false;
+        } else if (!validateEmail(email)) {
+            document.getElementById("customer_email_instruction").innerText = "* Please enter a valid email";
+            isValid = false;
+        } else {
+            document.getElementById("customer_email_instruction").innerText = "";
+        }
+
+        // Password validation
+        if (password === "") {
+            document.getElementById("password_instruction").innerText = "* Please enter a password";
+            isValid = false;
+        } else if (!validatePasswordStrength(password)) {
+            document.getElementById("password_instruction").innerText = "* Password should contain at least 8 characters including uppercase, lowercase, numbers, and special characters";
+            isValid = false;
+        } else {
+            document.getElementById("password_instruction").innerText = "";
+        }
+
+        // Confirm Password validation
+        if (confirmPassword === "") {
+            document.getElementById("confirm_password_instruction").innerText = "* Please confirm your password";
+            isValid = false;
+        } else if (password !== confirmPassword) {
+            document.getElementById("confirm_password_instruction").innerText = "* Passwords do not match";
+            isValid = false;
+        } else {
+            document.getElementById("confirm_password_instruction").innerText = "";
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+
+    // Email validation function
+    function validateEmail(email) {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
+    // Password strength validation function
+    function validatePasswordStrength(password) {
+        var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+        return re.test(password);
+    }
+
+</script>

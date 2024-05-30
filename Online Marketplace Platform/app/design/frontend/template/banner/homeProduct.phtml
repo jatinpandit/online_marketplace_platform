@@ -1,0 +1,57 @@
+<?php $trendingDealsCollection = $this->getTrendingProduct()->getData() ?>
+<div class="products-section trending-deals">
+    <div class="container">
+        <h2 class="section-title">Top Trending Deals</h2>
+        <div class="row">
+            <?php foreach ($trendingDealsCollection as $product) : ?>
+                <div class="col-md-3">
+                    <div class="product">
+                        <a href="<?php echo $product->getLink(); ?>">
+                            <img src="<?php echo Mage::getBaseUrl('media/product/'.$product->getImageLink())?>" alt="<?php echo $product->getName(); ?>" class="product-image">
+                        </a>
+                        <h3 class="product-name"><?php echo $product->getName(); ?></h3>
+                        <span class="product-price">$<?php echo $product->getPrice(); ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+<div class="products-section best-sellers">
+    <div class="container">
+        <h2 class="section-title">Best Sellers</h2>
+        <div class="row">
+            <?php foreach ($this->getBestSallerProduct()->getData() as $product) : ?>
+                <div class="col-md-3">
+                    <div class="product">
+                        <a href="<?php echo $product->getLink(); ?>">
+                            <img src="<?php echo Mage::getBaseUrl('media/product/'.$product->getImageLink())?>" alt="<?php echo $product->getName(); ?>" class="product-image">
+                        </a>
+                        <h3 class="product-name"><?php echo $product->getName(); ?></h3>
+                        <span class="product-price">$<?php echo $product->getPrice(); ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+<div class="products-section normal-products">
+    <div class="container">
+        <h2 class="section-title">More to see..</h2>
+        <div class="row">
+            <?php foreach ($this->getProduct()->getData() as $product) : ?>
+                <div class="col-md-3">
+                    <div class="product">
+                        <a href="<?php echo $product->getLink(); ?>">
+                            <img src="<?php echo Mage::getBaseUrl('media/product/'.$product->getImageLink())?>" alt="<?php echo $product->getName(); ?>" class="product-image">
+                        </a>
+                        <h3 class="product-name"><?php echo $product->getName(); ?></h3>
+                        <span class="product-price">$<?php echo $product->getPrice(); ?></span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<?php $listModel = $this->getCsvData(); ?>
+
+<section class="list">
+    <h2>Import List</h2>
+    <table border="1">
+        <tr>
+            <th>Filename</th>
+            <th>Uploaded At</th>
+            <th>Actions</th>
+        </tr>
+        <?php foreach ($listModel as $csvFile): ?>
+            <tr>
+                <td>
+                    <?php echo $csvFile->getCsvFile() ?>
+                </td>
+                <td>
+                    <?php echo $csvFile->getUploadedAt() ?>
+                </td>
+                <td>
+                    <a href="<?php echo Mage::getBaseUrl('admin/import/read?csvId=' . $csvFile->getCsvId()) ?>"
+                        target="_blank">Read</a> ||
+                    <button onclick="importData(<?php echo $csvFile->getCsvId() ?>)">Import</button> ||
+                    <div id="progressStatus_<?php echo $csvFile->getCsvId(); ?>"></div>
+                    <a href="<?php echo Mage::getBaseUrl('admin/import/export?csvId=' . $csvFile->getCsvId()) ?>">Export</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    var totalCount = 0;
+    var currentIndex = 0;
+
+    function importData(csvId) {
+        var xHttp = new XMLHttpRequest();
+        xHttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                totalCount = parseInt(xHttp.responseText);
+                currentIndex = 0; 
+                updateData(csvId);
+            }
+        };
+        xHttp.open('GET', 'http://localhost/mvc_project/admin/import/import?csvId=' + csvId);
+        xHttp.send();
+    }
+
+    function updateData(csvId) {
+        var xHttp = new XMLHttpRequest();
+        xHttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                currentIndex++; 
+                document.getElementById('progressStatus_' + csvId).innerHTML = currentIndex + '/' + totalCount;
+
+                if (currentIndex < totalCount) {
+                    updateData(csvId);
+                } else {
+                    console.log('Progress complete.');
+                    document.getElementById('progressStatus_' + csvId).innerHTML = 'Process Complete';
+                }
+            }
+        };
+        xHttp.open('GET', 'http://localhost/mvc_project/admin/import/importData?csvId=' + csvId);
+        xHttp.send();
+    }
+</script>

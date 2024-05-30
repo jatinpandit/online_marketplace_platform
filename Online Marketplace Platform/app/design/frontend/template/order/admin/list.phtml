@@ -1,0 +1,152 @@
+<?php
+$statusFilter = isset ($_GET['status']) ? $_GET['status'] : null;
+$orderModel = $this->getOrders($statusFilter);
+
+$perPage = isset ($_GET['per_page']) ? (int) $_GET['per_page'] : 5;
+$page = isset ($_GET['page']) ? (int) $_GET['page'] : 1;
+$totalRows = count($orderModel->getData());
+$totalPages = ceil($totalRows / $perPage);
+$page = max(1, min($page, $totalPages));
+$offset = ($page - 1) * $perPage;
+$currentPageData = array_slice($orderModel->getData(), $offset, min($perPage, $totalRows - $offset), true);
+if (empty ($currentPageData) && $page > 1) {
+    header('Location: ?page=' . ($page - 1) . '&per_page=' . $perPage);
+}
+?>
+
+<section class="list">
+    <h2>Orders List</h2>
+
+    <div class="function-row">
+
+        <div class="filter-func">
+
+            <div class="row-page-filter">
+                <label for="per_page">Rows per page:</label>
+                <select id="per_page" name="per_page" onchange="changeRowsPerPage(this)">
+                    <option value="5" <?= ($perPage == 5) ? 'selected' : '' ?>>5</option>
+                    <option value="10" <?= ($perPage == 10) ? 'selected' : '' ?>>10</option>
+                    <option value="15" <?= ($perPage == 15) ? 'selected' : '' ?>>15</option>
+                </select>
+            </div>
+            <div class="status-filter">
+                <label for="status">Status:</label>
+                <select id="status" name="status" onchange="changeStatus(this)">
+                    <option value="">All</option>
+                    </option>
+                    <?php foreach ($this->getStatusData() as $_status): ?>
+                        <option value="<?php echo $_status->getStatusId() ?>" <?= ($statusFilter == $_status->getStatusId()) ? 'selected' : '' ?>>
+                            <?php echo $_status->getStatusName() ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+
+        <p class="total-orders">
+            <?php echo $totalRows ?> Orders
+        </p>
+    </div>
+
+    <table border="1">
+        <tr>
+            <th>Order Id</th>
+            <th>Order Number</th>
+            <th>Total Item</th>
+            <th>Tax</th>
+            <th>Grand Total</th>
+            <th>status</th>
+            <th>View</th>
+        </tr>
+        <?php foreach ($currentPageData as $order): ?>
+            <tr id="row_<?= $order->getOrderId() ?>" onclick="showItems(<?= $order->getOrderId() ?>)">
+                <td>
+                    <?php echo $order->getOrderId() ?>
+                </td>
+                <td>
+                    <?php echo $order->getOrderNumber() ?>
+                </td>
+                <td>
+                    <?php echo sizeof($this->getOrdersItem($order->getOrderId())) ?>
+                </td>
+                <td>
+                    <?php echo $order->getTaxPercent() ?>
+                </td>
+                <td>
+                    <?php echo $order->getGrandTotal() ?>
+                </td>
+                <td>
+
+                    <form method="post" action="<?php echo Mage::getBaseUrl('admin/order/save') ?>">
+                        <input type="hidden" name="status_update[order_id]" value="<?php echo $order->getOrderId() ?>">
+                        <select
+                            style="background-color:<?php echo $this->getStatusBackgroundColor($order->getStatus()) ?>; cursor: pointer;"
+                            name="status_update[status]" onchange="this.form.submit()">
+                            <?php foreach ($this->getStatusData() as $_status): ?>
+                                <option value="<?php echo $_status->getStatusId() ?>" <?php echo ($order->getStatus() == $_status->getStatusId()) ? 'selected' : '' ?>>
+                                    <?php echo $_status->getStatusName() ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </form>
+
+                    <?php if ($order->getStatus() == '8'): ?>
+                        <button><a
+                                href="<?php echo Mage::getBaseUrl('admin/order/cancellationReq?oId=' . $order->getOrderId() . '&&res=yes') ?>">Yes</a></button>
+                        <button><a
+                                href="<?php echo Mage::getBaseUrl('admin/order/cancellationReq?oId=' . $order->getOrderId() . '&&res=no') ?>">No</a></button>
+                    <?php endif; ?>
+
+                </td>
+                <td>
+                    <button><a
+                            href="<?php echo Mage::getBaseUrl('admin/order/itemView?oId=' . $order->getOrderId()) ?>">
+                            View</a>
+                    </button>
+                </td>
+
+            </tr>
+        <?php endforeach; ?>
+    </table>
+
+    <div class="pagination">
+        <?php
+        $showEllipsis = true;
+        for ($i = 1; $i <= $totalPages; $i++):
+            if ($i == $page || $i == 1 || $i == $totalPages || ($i >= $page - 2 && $i <= $page + 2)):
+                ?>
+                <a href="?page=<?= $i ?>&per_page=<?= $perPage ?>" <?= ($i == $page) ? 'class="active"' : '' ?>>
+                    <?= $i ?>
+                </a>
+                <?php
+                $showEllipsis = true;
+            elseif ($showEllipsis):
+                ?>
+                <span>. . .</span>
+                <?php
+                $showEllipsis = false;
+            endif;
+        endfor;
+        ?>
+    </div>
+    </div>
+</section>
+<script>
+    function changeRowsPerPage(select) {
+        var perPage = select.value;
+        window.location.href = '?page=1&per_page=' + perPage;
+    }
+
+    function changeStatus(select) {
+        var status = select.value;
+        var perPage = document.getElementById('per_page').value;
+        var currentUrl = '?page=1&per_page=' + perPage;
+
+        if (status !== '') {
+            currentUrl += '&status=' + encodeURIComponent(status);
+        }
+
+        window.location.href = currentUrl;
+    }
+
+</script>

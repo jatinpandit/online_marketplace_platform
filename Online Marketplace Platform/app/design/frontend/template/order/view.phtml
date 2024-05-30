@@ -1,0 +1,101 @@
+<?php
+$itemData = $this->getOrders();
+$statusLabels = ['Order Placed', 'In Process', 'Shipped', 'Completed', 'Cancelled'];
+?>
+
+<section class="order-view">
+    <h2 style="margin-bottom: 1.5rem;">Orders</h2>
+    <?php if ($itemData !== false): ?>
+        <?php foreach ($itemData->getData() as $order): ?>
+            <?php
+            $orderId = $order->getOrderId();
+            $orderItems = $this->getItemData($orderId)->getData();
+            $status = $order->getStatus();
+            ?>
+            <?php if (!empty ($orderItems)): ?>
+                <div class="order-item-card">
+                    <div class="order-header">
+                        <h3>
+                            <?php echo $order->getOrderNumber() ?>
+                        </h3>
+                        <?php if ($order->getStatus() == '8'): ?>
+                            <p style="color: red;"> Cencel Request Send Succesfully!</p>
+                        <?php endif; ?>
+                        <?php if ($order->getStatus() == '5'): ?>
+                            <p style="color: red;"> Order Cancel Succesfully!</p>
+                        <?php endif; ?>
+                        <?php if ($order->getStatus() <= '3'): ?>
+                            <button class="cancel-order-btn"><a style="color:white"
+                                    href="<?php echo Mage::getBaseUrl('order/index/save?oId=' . $order->getOrderId()) ?>">Cancel
+                                    Order</a></button>
+                        <?php elseif ($order->getStatus() == '4'): ?>
+                            <button class="return-order-btn">Return Order</button>
+                        <?php endif; ?>
+                    </div>
+                    <!-- ------------------------------------------------------------ -->
+                    <?php if ($order->getStatus() < '5'): ?>
+                        <div class="progress">
+                            <?php
+                            $progress = ($status) * 25; // Each status takes 25% of progress
+                            if ($status == 4) {
+                                $progress = 100; // If status is cancelled, progress is 100%
+                            }
+                            ?>
+
+                            <div class="progress-bar <?php echo ($status == 5) ? 'cancelled' : ''; ?>" role="progressbar"
+                                style="width: <?php echo $progress; ?>%;" aria-valuenow="<?php echo $progress; ?>" aria-valuemin="0"
+                                aria-valuemax="100">
+                                <?php echo $statusLabels[$status - 1]; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <!--------------------------------------------------------------  -->
+
+                    <div class="order-items">
+                        <?php $totalItems = 0; ?>
+                        <?php foreach ($orderItems as $item): ?>
+                            <?php
+                            $productId = $item->getProductId();
+                            $productData = $this->getProductData($productId);
+                            $totalItems += $item->getQty();
+                            ?>
+                            <div class="item">
+                                <div class="item-image">
+                                    <img src="<?php echo Mage::getBaseUrl('media/product/' . $productData->getImageLink()) ?>"
+                                        alt="<?php echo $productData->getName() ?>">
+                                </div>
+                                <div class="item-details">
+                                    <h4>
+                                        <?php echo $productData->getName() ?>
+                                    </h4>
+                                    <p><strong>Price:</strong>
+                                        <?php echo $productData->getPrice() ?>
+                                    </p>
+                                    <p><strong>Quantity:</strong>
+                                        <?php echo $item->getQty() ?>
+                                    </p>
+                                    <p><strong>Total Cost:</strong>
+                                        <?php echo $item->getRowTotal() ?>
+                                    </p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="order-summary">
+                        <p><strong>Total Items:</strong>
+                            <?php echo count($orderItems) ?>
+                        </p>
+                        <p><strong>Total Qty:</strong>
+                            <?php echo $totalItems ?>
+                        </p>
+                        <p><strong>Total Cost of Order:</strong>
+                            <?php echo $order->getGrandTotal() ?>
+                        </p>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>No orders available.</p>
+    <?php endif; ?>
+</section>

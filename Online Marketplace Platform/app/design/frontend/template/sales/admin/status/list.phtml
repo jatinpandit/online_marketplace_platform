@@ -1,0 +1,25 @@
+<?php   $listModel = $this->getStatusData();?>
+
+<section class="list">
+<h2>Status List</h2>
+    <table border="1">
+        <tr>
+            <th>Status Id</th>
+            <th>Status Methods</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <?php foreach ($listModel->getData() as $status): ?>
+            <tr>
+                <td style="width:30px"><?= $status->getStatusId() ?></td>
+                <td><?= $status->getStatusName() ?></td>
+                <td><a href="<?php echo Mage::getBaseUrl('admin/sales_status/form?id='. $status->getStatusId()) ?>"  >Edit</a></td>
+                <td><a href="<?php echo Mage::getBaseUrl('admin/sales_status/delete?id='. $status->getStatusId()) ?>"  >Delete</a></td>
+            </tr>
+        <?php endforeach; ?>
+  </table>
+</section>
+
+
+
+

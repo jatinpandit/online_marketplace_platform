@@ -1,0 +1,125 @@
+<?php $customerData = $this->getCustomerData(); 
+    $orderData = $this->getOrder();
+?>
+
+<section class="order-itemView">
+    <div class="customer-id">Customer ID:
+        <?php echo $customerData->getCustomerId() ?>
+    </div>
+
+    <div class="raw-container">
+        <div class="raw-item">
+            <h3>Billing Address</h3>
+            <?php echo $customerData->getBillingAddress() ?><br>
+            <?php echo $customerData->getBillingCity() . ' - ' . $customerData->getBillingZip() ?> <br>
+            <?php echo $customerData->getBillingPhone() ?>
+        </div>
+        <div class="raw-item">
+            <h3>Shipping Address</h3>
+            <?php echo $customerData->getShippingAddress() ?><br>
+            <?php echo $customerData->getShippingCity() . ' - ' . $customerData->getShippingZip() ?> <br>
+            <?php echo $customerData->getShippingPhone() ?>
+        </div>
+        <div class="raw-item">
+            <h3>Payment Method</h3>
+            <?php echo $this->getPaymentData()->getPaymentMethod() ?>
+        </div>
+        <div class="raw-item">
+            <h3>Shipping Method</h3>
+            <?php echo $this->getShippingData()->getShippingMethod() ?>
+        </div>
+    </div>
+
+    <div class="item-subtotal">
+
+        <div class="items-container">
+            <!-- Item 1 -->
+            <?php foreach ($this->getOrdersItem() as $_item): ?>
+                <?php $product = $_item->getProduct(); ?>
+                <div class="item">
+                    <img src="<?php echo Mage::getBaseUrl('media/product/' . $product->getImageLink()) ?>" alt="Item 1">
+                    <div class="item-data">
+                        <p>
+                            <?php echo $product->getName() ?>
+                        </p>
+                        <p>Qty:
+                            <?php echo $_item->getQty() ?>
+                        </p>
+                        <p>Price: $
+                            <?php echo $product->getPrice(); ?>
+                        </p>
+                        <p>Total Cost: $
+                            <?php echo $product->getPrice() * $_item->getQty(); ?>
+                        </p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="subtotal-discount-status">
+            <div>
+                <h3>Item Total</h3>
+                <?php foreach ($this->getOrdersItem() as $_item): ?>
+                    <?php $product = $_item->getProduct(); ?>
+                    <div class="item-Total-list">
+                        <p>
+                            <?php echo $product->getName() ?>
+                        </p>
+                        <p>+ $
+                            <?php echo $_item->getRowTotal(); ?>
+                        </p>
+                    </div>
+                <?php endforeach; ?>
+                <div class="item-Total-list">
+                    <p>Discounts</p>
+                    <p>- $0.00</p>
+                </div>
+                <hr style="margin: 15px 0;">
+                <div class="item-Total-list">
+                    <h3>Grand Total</h3>
+                    <p>$<?php echo $orderData->getGrandTotal()?></p>
+                </div>
+            </div>
+            <div>
+                <h4>Current Order status</h4>
+                <form method="post" action="<?php echo Mage::getBaseUrl('admin/order/save') ?>">
+                    <input type="hidden" name="status_update[order_id]" value="<?php echo $this->getRequest()->getParams('oId') ?>">
+                    <select
+                        style="cursor: pointer;"
+                        name="status_update[status]" onchange="this.form.submit()">
+                        <?php foreach ($this->getStatusData() as $_status): ?>
+                            <option value="<?php echo $_status->getStatusId() ?>" <?php echo ($orderData->getStatus() == $_status->getStatusId()) ? 'selected' : '' ?>>
+                                <?php echo $_status->getStatusName() ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </form>
+
+                <?php if ($orderData->getStatus() == '8'): ?>
+                    <button><a
+                            href="<?php echo Mage::getBaseUrl('admin/order/cancellationReq?oId=' . $this->getRequest()->getParams('oId') . '&&res=yes') ?>">Yes</a></button>
+                    <button><a
+                            href="<?php echo Mage::getBaseUrl('admin/order/cancellationReq?oId=' . $this->getRequest()->getParams('oId') . '&&res=no') ?>">No</a></button>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <h3>Order History</h3>
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($this->getHistoryData() as $_history) :?>
+                <tr>
+                    <td><?php echo $_history->getDate()?></td>
+                    <td><?php echo $_history->getStatusNameById($_history->getFromStatus())?> --> <?php echo $_history->getStatusNameById($_history->getToStatus())?></td>
+                </tr>
+            <?php endforeach;?>
+        </tbody>
+    </table>
+</section>

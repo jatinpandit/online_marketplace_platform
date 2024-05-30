@@ -1,0 +1,314 @@
+.header {
+    /* width: 100vw; */
+    background-color: black;
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: sticky;
+    left: 0;
+    top: 0;
+    z-index: 5000;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #3498db;
+  }
+
+.logo img{
+    max-width:50%;
+    /* height: 100px; */
+}
+
+.navbar {
+    display: flex;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+}
+
+.navbar li {
+    margin: 0 15px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #ffd700; /* Change the color on hover, you can choose your desired color */
+}
+
+.navbar li {
+    position: relative;
+}
+
+.navbar li::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #ffd700;
+    bottom: 0;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+.navbar li:hover::before {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+
+/* -------------------------------- */
+
+.search-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid transparent;
+    border-radius: 18px;
+  }
+  .search-bar-container:hover {
+    border: 2px solid #ffd700;
+  }
+  
+  /* Style the search bar */
+  .search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 600px; /* Adjust as needed */
+    width: 100%;
+  }
+  
+  /* Style the search input */
+  .search-input {
+    width: 100%;
+    width: 500px;
+    padding: 5px;
+    padding-left: 8px;
+    border: 1px solid #ccc;
+    border-radius: 16px;
+    outline: none;
+    font-size: 16px;
+  }
+  
+  /* Style the search icon */
+  .search-icon {
+    position: absolute;
+    right: 10px;
+    color: #555;
+    cursor: pointer;
+  }
+  
+  /* Add some hover effect to the search icon */
+  .search-icon:hover {
+    color: #0c0c0c;
+  }
+
+  /* Style the icon container */
+.icon-container {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+  }
+  
+  /* Style the login icon */
+  .login-icon {
+    font-size: 16px;
+    color: white;
+    margin-right: 10px; /* Adjust spacing as needed */
+  }
+  
+  /* Style the cart container */
+  .cart-container-icon {
+    margin-top: 3px;
+    position: relative;
+  }
+  
+  /* Style the cart icon */
+  .cart-icon {
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  /* Style the cart count */
+  .cart-count {
+    font-size: 16px;
+    color: #555;
+    margin-right: 10px;
+    background-color: #ff0000; /* Adjust background color as needed */
+    color: #fff;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+  }
+
+  .user-icon-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Style the user icon */
+  .user-icon {
+    font-size: 24px;
+    color: white;
+    margin-right: 10px; /* Adjust spacing as needed */
+  }
+  
+
+  .user-icon:hover{
+    color: #ffd700;
+  }
+
+  .cart-icon:hover{
+    color: #ffd700;
+  }
+
+.user-icon-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Style the user dropdown */
+.user-dropdown {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    
+}
+
+.user-name{
+    color: white;
+}
+
+/* Style the dropdown content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 6000;
+}
+
+/* Style the dropdown items */
+.dropdown-content a {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #555;
+    transition: background-color 0.3s ease;
+}
+
+/* Add hover effect to the dropdown items */
+.dropdown-content a:hover {
+    background-color: #f5f5f5;
+}
+
+/* Show the dropdown content on hover */
+.user-icon-container:hover .dropdown-content {
+    display: block;
+}
+  
+  /* --------------------- */
+  /* Style the small navbar */
+.small-navbar {
+    background-color: #333;
+    padding: 10px;
+    text-align: center; 
+    position: sticky;
+    left: 0;
+    /* top: 68.8px; */
+    z-index: 4000;
+  }
+  
+  /* Style the category list */
+  .category-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block; /* Center inline elements */
+  }
+  
+  /* Style the category items */
+  .category-item {
+    margin: 0 10px; /* Adjust margin as needed */
+    display: inline-block;
+  }
+  
+  /* Style the category links */
+  .category-item a {
+    text-decoration: none;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Add hover effect to the category links */
+  .category-item a:hover {
+    background-color: #555;
+  }
+  
+
+/* ------------------------------------------- */
+
+/* Suggestions container */
+#txtHint {
+  color: #333;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 430px; 
+  transform: translateX(-50%);
+  width: 300px;
+  max-width: 80vw; /* Limit the width to match the search bar */
+  background-color: #fff;
+  /* border: 1px solid #ccc; */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+  max-height: 300px; /* Limit maximum height and enable scrolling */
+}
+
+/* Suggestions list */
+#txtHint div {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#txtHint a {
+  color: #000; /* Set anchor tag color to black */
+  text-decoration: none; /* Remove underline */
+}
+
+#txtHint a:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+#txtHint div:not(:last-child) {
+  border-bottom: 1px solid #ddd; /* Add border between suggestions */
+}
+
+/* Hover effect on suggestions */
+#txtHint div:hover {
+  background-color: #f9f9f9;
+}

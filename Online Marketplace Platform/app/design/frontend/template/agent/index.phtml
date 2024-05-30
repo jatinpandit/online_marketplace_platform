@@ -1,0 +1,62 @@
+<select name="agent" id="select-agent">
+    <option>-select-</option>
+    <?php foreach ($this->getAgentData() as $_agent): ?>
+        <option value="<?php echo $_agent->getId() ?>">
+            <?php echo $_agent->getName() ?>
+        </option>
+    <?php endforeach; ?>
+</select>
+
+<select name="branch" id="select-branch">
+    <option>Select Branch</option>
+    <?php foreach ($this->getBranchData() as $_branch) :?>
+        <option value="<?php echo $_branch->getId()?>"><?php echo $_branch->getName()?></option>
+    <?php endforeach; ?>
+</select>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var xhr = new XMLHttpRequest();
+    var agentSelect = document.getElementById('select-agent');
+    var branchSelect = document.getElementById('select-branch');
+    
+    agentSelect.addEventListener('change', function() {
+        var agentId = this.value;
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var branches = JSON.parse(xhr.responseText);
+                    updateBranchDropdown(branches); 
+                } else {
+                    console.error('Failed to fetch branches');
+                }
+            }
+        };
+        xhr.open('GET', 'http://localhost/mvc_project/agent/index/branch?agent_id=' + agentId);
+        xhr.send();
+    });
+
+    function updateBranchDropdown(branches) {
+
+        if (branchSelect === null) {
+            console.error('Branch dropdown not found');
+            return;
+        }
+
+        branchSelect.innerHTML = '';
+
+        var defaultOption = document.createElement('option');
+        defaultOption.textContent = 'Select Branch';
+        defaultOption.value = '';
+        console.log(defaultOption)
+        branchSelect.appendChild(defaultOption);
+
+        branches.forEach(function(branch) {
+            var option = document.createElement('option');
+            option.value = branch.id;
+            option.textContent = branch.name;
+            branchSelect.appendChild(option);
+        });
+    }
+});
+</script>

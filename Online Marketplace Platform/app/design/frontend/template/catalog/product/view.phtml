@@ -1,0 +1,74 @@
+<?php $productData = $this->getProductData(); ?>
+
+
+
+<main class="container-product">
+
+    <!-- Left Column / Headphones Image -->
+    <div class="left-column">
+        <img data-image="black" src="<?php echo Mage::getBaseUrl('media/product/' . $productData->getImageLink()) ?>"
+            alt="Product Image 1">
+    </div>
+
+
+    <!-- Right Column -->
+    <div class="right-column">
+
+        <!-- Product Description -->
+        <div class="product-description">
+            <span>
+                <?php echo $this->getCategoryIdByName($productData->getCategoryId()); ?>
+            </span>
+            <h1>
+                <?php echo $productData->getName() ?>
+            </h1>
+            <p>
+                <?php echo $productData->getDescription() ?>
+            </p>
+        </div>
+
+        <!-- Product Configuration -->
+        <div class="product-configuration">
+
+            <!-- Product Color -->
+            <div class="product-color">
+                <span>Color</span>
+
+                <div class="color-choose">
+                    <div>
+                        <input data-image="red" type="radio" id="red" name="color" value="red" checked>
+                        <label for="red"><span></span></label>
+                    </div>
+                    <div>
+                        <input data-image="blue" type="radio" id="blue" name="color" value="blue">
+                        <label for="blue"><span></span></label>
+                    </div>
+                    <div>
+                        <input data-image="black" type="radio" id="black" name="color" value="black">
+                        <label for="black"><span></span></label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Cable Configuration -->
+            <div class="cable-config">
+                <form action="<?php echo Mage::getBaseUrl('sales/quote/add') ?>" method="post">
+                    <input type="hidden" name="product_id"
+                        value="<?php echo isset($productData) ? $productData->getProductId() : ''; ?>">
+                    <label for="quantity" class="quantity-label">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" class="quantity-input" value="1" min="1" max="<?php echo $productData->getInventory()?>">
+                    
+                    <div class="product-price">
+                        <span> <?php echo $productData->getPrice() ?>$</span>
+                        <?php if($productData->getInventory() > 0) :?>
+                            <input type="submit" value="Add to cart" class="add-to-cart-btn">
+                        <?php else: ?>
+                            <h3 style="color: red">Sorry, Product is currently not avaiable*</h3>
+                        <?php endif; ?>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+</main>

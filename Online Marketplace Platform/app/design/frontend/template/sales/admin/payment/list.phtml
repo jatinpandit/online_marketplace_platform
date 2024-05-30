@@ -1,0 +1,25 @@
+<?php   $listModel = $this->getPaymentData();?>
+
+<section class="list">
+<h2>Payment Method List</h2>
+    <table border="1">
+        <tr>
+            <th>Payment Id</th>
+            <th>Payment Methods</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <?php foreach ($listModel->getData() as $payment): ?>
+            <tr>
+                <td style="width:30px"><?= $payment->getPaymentId() ?></td>
+                <td><?= $payment->getPaymentMethod() ?></td>
+                <td><a href="<?php echo Mage::getBaseUrl('admin/sales_payment/form?id='. $payment->getPaymentId()) ?>"  >Edit</a></td>
+                <td><a href="<?php echo Mage::getBaseUrl('admin/sales_payment/delete?id='. $payment->getPaymentId()) ?>"  >Delete</a></td>
+            </tr>
+        <?php endforeach; ?>
+  </table>
+</section>
+
+
+
+

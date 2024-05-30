@@ -1,0 +1,15 @@
+<?php $statusData = $this->getStatusData(); ?>
+<form action="<?php echo Mage::getBaseUrl('admin/sales_status/save')?>" method="POST" class="form">
+<input type="hidden" name="status[status_id]" value="<?php echo isset($statusData) ? $statusData->getStatusId() : ''; ?>">
+
+  <div class="form-row">
+        <div class="form-col">
+            <label for="sku">Status type</label>
+            <input type="text" id="sku" name="status[status_name]" value="<?php echo isset($statusData) ? $statusData->getStatusName() : ''; ?>" >
+        </div>
+    </div>
+
+    <button type="submit" >
+        <?php echo ($statusData->getId() !== "") ? 'Update' : 'Submit'; ?>
+    </button>
+</form>
